@@ -19,4 +19,21 @@ async function getTrendingMoviesPreview(){
 
 }
 
+async function getCategoryMoviesPreview(){
+  const res = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`);
+  const data = await res.json();
+  const categories = data.genres;
+  const categoriesPreview = document.querySelector('.categoriesPreview-list');
+
+  categories.forEach(category =>{
+    categoriesPreview.innerHTML+=
+    `
+      <div class="category-container">
+        <h3 id="id${category.id}" class="category-title">${category.name}</h3>
+      </div>
+    `
+  });
+
+}
+getCategoryMoviesPreview();
 getTrendingMoviesPreview();
