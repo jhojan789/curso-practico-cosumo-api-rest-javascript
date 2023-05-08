@@ -13,9 +13,9 @@ async function getTrendingMoviesPreview(){
   const {data} = await axiosAPI('trending/movie/day');
   
   const movies = data.results;
-  const trendingPreview = document.querySelector('.trendingPreview-movieList');
+  const trendingMoviesPreviewList = document.querySelector('.trendingPreview-movieList');
   movies.forEach(movie => {
-      trendingPreview.innerHTML+= 
+    trendingMoviesPreviewList.innerHTML+= 
       `
       <div class="movie-container">
       <img
@@ -33,10 +33,10 @@ async function getCategoryMoviesPreview(){
   const {data} = await axiosAPI('genre/movie/list');
 
   const categories = data.genres;
-  const categoriesPreview = document.querySelector('.categoriesPreview-list');
+  const categoriesPreviewList = document.querySelector('.categoriesPreview-list');
 
   categories.forEach(category =>{
-    categoriesPreview.innerHTML+=
+    categoriesPreviewList.innerHTML+=
     `
       <div class="category-container">
         <h3 id="id${category.id}" class="category-title">${category.name}</h3>
