@@ -16,16 +16,18 @@ async function getTrendingMoviesPreview(){
   trendingMoviesPreviewList.innerHTML = '';
   
   movies.forEach(movie => {
-    trendingMoviesPreviewList.innerHTML+= 
-      `
-      <div class="movie-container">
-      <img
-        src="https://image.tmdb.org/t/p/w300/${movie.poster_path}"
-        class="movie-img"
-        alt=${movie.title}
-      />
-    </div>
-    `;
+
+    const div = document.createElement('div');
+    div.classList.add('movie-container');
+
+    const img = document.createElement('img');
+    img.setAttribute('src','https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+    img.classList.add('movie-img');
+    img.setAttribute('alt', movie.title);
+
+    div.appendChild(img);
+    trendingMoviesPreviewList.appendChild(div);
+
   });
 
 }
@@ -37,17 +39,48 @@ async function getCategoryMoviesPreview(){
   categoriesPreviewList.innerHTML = '';
 
   categories.forEach(category =>{
-    categoriesPreviewList.innerHTML+=
-    `
-      <div class="category-container">
-        <h3 id="id${category.id}" class="category-title">${category.name}</h3>
-      </div>
-    `
+
+    const div = document.createElement('div');
+    div.classList.add('category-container');
+
+    const h3 = document.createElement('h3');
+    h3.setAttribute('id', 'id' + category.id);
+    h3.classList.add('category-title');
+    h3.innerText = category.name;
+
+    h3.addEventListener('click',()=>{
+      location.hash = `#category=${category.id}-${category.name}`;
+    });
+
+    div.appendChild(h3);
+    categoriesPreviewList.appendChild(div);
+
   });
 
 }
 
 
+async function getMoviesByCategory(id){
+  const {data} = await axiosAPI('discover/movie',{
+    with_genres: id,
+  });
+  
+  const movies = data.results;
+  genericSection.innerHTML = '';
+  
+  movies.forEach(movie => {
 
+    const div = document.createElement('div');
+    div.classList.add('movie-container');
 
+    const img = document.createElement('img');
+    img.setAttribute('src','https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+    img.classList.add('movie-img');
+    img.setAttribute('alt', movie.title);
 
+    div.appendChild(img);
+    genericSection.appendChild(div);
+
+  });
+
+}

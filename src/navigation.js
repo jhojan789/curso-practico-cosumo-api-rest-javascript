@@ -114,6 +114,17 @@ function categoriesPage(){
   movieDetailSection.classList.add('inactive');
   
   console.log('category Movies');
+
+  const [,categoryIdName]  = location.hash.split('=');
+  const [categoryId, categoryName] = categoryIdName.split('-');
+
+  headerCategoryTitle.innerText = categoryName;
+
+  getMoviesByCategory(categoryId);
+
+  
+
+
   
 }
 function trendsPage(){
