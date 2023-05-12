@@ -101,3 +101,9 @@ async function getMoviesBySearch(query){
 
 }
 
+async function getTrendingMovies(){
+  const {data} = await axiosAPI('trending/movie/day');
+  
+  const movies = data.results;
+  createMovies(movies, genericSection);
+}
