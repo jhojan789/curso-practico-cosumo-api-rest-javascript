@@ -120,13 +120,26 @@ async function getMovieById(id){
   movieDetailScore.innerHTML = movie.vote_count;
   
   const urlImg = 'https://image.tmdb.org/t/p/w500/' + movie.poster_path;
-
+  
   headerSection.style.background = `
-      linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), 
-      url(${urlImg})`;
-
+  linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), 
+  url(${urlImg})`;
+  
   createCategories(movie.genres, movieDetailCategoriesList);
+  
+  getRelatedMoviesById(id);
+  
+}
 
+
+async function getRelatedMoviesById(id){
+  const {data} = await axiosAPI(`movie/${id}/recommendation`);
+  const relatedMovies = data.results;
+  
+
+  createMovies(relatedMovies,relatedMoviesContainer);
+
+  console.log(relatedMovies);
 
 
 }

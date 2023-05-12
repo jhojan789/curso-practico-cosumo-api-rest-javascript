@@ -5,9 +5,11 @@ window.addEventListener('hashchange', navigator,false);
 searchFormBtn.addEventListener('click', ()=>{
   location.hash = '#search='  + searchFormInput.value;
 });
+
 trendingBtn.addEventListener('click', ()=>{
   location.hash = '#trends';
 });
+
 arrowBtn.addEventListener('click', ()=>{
   history.back();
   // location.hash = '#home=';
@@ -30,10 +32,9 @@ function navigator(){
 
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
-  console.log(history);
+
   // window.scrollTo(0,0);
 }
-
 
 function homePage(){
   headerSection.classList.remove('header-container--long');
@@ -104,6 +105,7 @@ function movieDetailsPage(){
   const [,movieId] = location.hash.split('=');
 
   getMovieById(movieId);
+  
   
   console.log('detailMovie');
   
