@@ -78,7 +78,21 @@ async function getCategoryMoviesPreview(){
 
 async function getMoviesByCategory(id){
   const {data} = await axiosAPI('discover/movie',{
-    with_genres: id,
+    params:{
+      with_genres: id,
+    },
+  });
+  
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+
+}
+async function getMoviesBySearch(query){
+  const {data} = await axiosAPI('search/movie',{
+    params:{
+      query,
+    },
   });
   
   const movies = data.results;
