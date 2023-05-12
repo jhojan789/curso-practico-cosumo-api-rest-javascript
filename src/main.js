@@ -9,34 +9,34 @@ const axiosAPI = axios.create({
 
 });
 
-async function getTrendingMoviesPreview(){
-  const {data} = await axiosAPI('trending/movie/day');
-  
-  const movies = data.results;
-  trendingMoviesPreviewList.innerHTML = '';
-  
+function createMovies(movies,container){
+
+  container.innerHTML = '';
+
   movies.forEach(movie => {
 
     const div = document.createElement('div');
     div.classList.add('movie-container');
 
     const img = document.createElement('img');
-    img.setAttribute('src','https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+    img.setAttribute(
+      'src',
+      'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
     img.classList.add('movie-img');
     img.setAttribute('alt', movie.title);
 
     div.appendChild(img);
-    trendingMoviesPreviewList.appendChild(div);
+    container.appendChild(div);
 
   });
 
+
+
 }
 
-async function getCategoryMoviesPreview(){
-  const {data} = await axiosAPI('genre/movie/list');
+function createCategories(categories, container){
+  container.innerHTML = '';
 
-  const categories = data.genres;
-  categoriesPreviewList.innerHTML = '';
 
   categories.forEach(category =>{
 
@@ -53,12 +53,28 @@ async function getCategoryMoviesPreview(){
     });
 
     div.appendChild(h3);
-    categoriesPreviewList.appendChild(div);
+    container.appendChild(div);
 
   });
 
+
 }
 
+async function getTrendingMoviesPreview(){
+  const {data} = await axiosAPI('trending/movie/day');
+  
+  const movies = data.results;
+  createMovies(movies, trendingMoviesPreviewList);
+}
+
+async function getCategoryMoviesPreview(){
+  const {data} = await axiosAPI('genre/movie/list');
+
+  const categories = data.genres;
+
+  createCategories(categories, categoriesPreviewList);
+
+}
 
 async function getMoviesByCategory(id){
   const {data} = await axiosAPI('discover/movie',{
@@ -66,21 +82,8 @@ async function getMoviesByCategory(id){
   });
   
   const movies = data.results;
-  genericSection.innerHTML = '';
-  
-  movies.forEach(movie => {
 
-    const div = document.createElement('div');
-    div.classList.add('movie-container');
-
-    const img = document.createElement('img');
-    img.setAttribute('src','https://image.tmdb.org/t/p/w300/' + movie.poster_path);
-    img.classList.add('movie-img');
-    img.setAttribute('alt', movie.title);
-
-    div.appendChild(img);
-    genericSection.appendChild(div);
-
-  });
+  createMovies(movies, genericSection);
 
 }
+

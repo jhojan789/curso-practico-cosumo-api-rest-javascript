@@ -26,6 +26,13 @@ function navigator(){
   }else{
     homePage();
   }
+
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+
+  // window.scrollTo(0,0);
+
+
 }
 
 
@@ -121,6 +128,9 @@ function categoriesPage(){
   headerCategoryTitle.innerText = categoryName;
 
   getMoviesByCategory(categoryId);
+
+  
+
 
   
 
