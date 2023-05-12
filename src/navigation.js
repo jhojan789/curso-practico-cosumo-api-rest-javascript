@@ -100,6 +100,10 @@ function movieDetailsPage(){
   genericSection.classList.add('inactive');
   
   movieDetailSection.classList.remove('inactive');
+
+  const [,movieId] = location.hash.split('=');
+
+  getMovieById(movieId);
   
   console.log('detailMovie');
   
