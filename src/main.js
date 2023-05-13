@@ -114,7 +114,7 @@ async function getTrendingMovies(){
 
 async function getMovieById(id){
   const {data: movie} = await axiosAPI('movie/' + id);
-  
+  console.log(movie);
   movieDetailTitle.innerHTML = movie.title;
   movieDetailDescription.innerHTML = movie.overview;
   movieDetailScore.innerHTML = movie.vote_count;
@@ -133,7 +133,7 @@ async function getMovieById(id){
 
 
 async function getRelatedMoviesById(id){
-  const {data} = await axiosAPI(`movie/${id}/recommendation`);
+  const {data} = await axiosAPI(`movie/${id}/recommendations`);
   const relatedMovies = data.results;
   
 
