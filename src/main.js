@@ -19,6 +19,7 @@ const lazyLoader = new IntersectionObserver((entries)=>{
 
       const url = entry.target.getAttribute('data-img');
       entry.target.setAttribute('src', url);
+      // console.log(entry.target);:
     }
 
   });
@@ -35,6 +36,7 @@ function createMovies(movies,container, lazyLoad = false){
     div.classList.add('movie-container');
 
     const img = document.createElement('img');
+    
     img.setAttribute(
       lazyLoad ? 'data-img' : 'src',
       'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
@@ -42,6 +44,10 @@ function createMovies(movies,container, lazyLoad = false){
     img.setAttribute('alt', movie.title);
     img.addEventListener('click',()=>{
       location.hash = '#movie=' + movie.id;
+    });
+
+    img.addEventListener('error',()=>{
+      img.setAttribute('src', 'https://http.cat/404');
     });
 
     if(lazyLoad) {
@@ -96,7 +102,7 @@ async function getCategoryMoviesPreview(){
 
   const categories = data.genres;
 
-  createCategories(categories, categoriesPreviewList);
+  createCategories(categories, categoriesPreviewList,true);
 
 }
 
@@ -109,7 +115,7 @@ async function getMoviesByCategory(id){
   
   const movies = data.results;
 
-  createMovies(movies, genericSection);
+  createMovies(movies, genericSection,true);
 
 }
 
