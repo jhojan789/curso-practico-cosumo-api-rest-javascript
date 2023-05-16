@@ -26,9 +26,16 @@ const lazyLoader = new IntersectionObserver((entries)=>{
 });
 
 
-function createMovies(movies,container, lazyLoad = false){
+function createMovies(movies,
+  container, 
+  {
+    lazyLoad = false, 
+    clean = true
+  }={}){
 
-  container.innerHTML = '';
+  if(clean){
+    container.innerHTML = '';
+  }
 
   movies.forEach(movie => {
 
@@ -94,7 +101,7 @@ async function getTrendingMoviesPreview(){
   const {data} = await axiosAPI('trending/movie/day');
   
   const movies = data.results;
-  createMovies(movies, trendingMoviesPreviewList,true);
+  createMovies(movies, trendingMoviesPreviewList,{lazyLoad:true});
 }
 
 async function getCategoryMoviesPreview(){
@@ -102,7 +109,7 @@ async function getCategoryMoviesPreview(){
 
   const categories = data.genres;
 
-  createCategories(categories, categoriesPreviewList,true);
+  createCategories(categories, categoriesPreviewList,{lazyLoad:true});
 
 }
 
@@ -115,7 +122,7 @@ async function getMoviesByCategory(id){
   
   const movies = data.results;
 
-  createMovies(movies, genericSection,true);
+  createMovies(movies, genericSection,{lazyLoad:true});
 
 }
 
@@ -135,8 +142,32 @@ async function getMoviesBySearch(query){
 async function getTrendingMovies(){
   const {data} = await axiosAPI('trending/movie/day');
   const movies = data.results;
-  createMovies(movies, genericSection);
 
+  createMovies(movies, genericSection,{clean:true});
+
+  const btnSeeMore = document.createElement('button');
+  btnSeeMore.innerText = 'Ver mas';
+  genericSection.appendChild(btnSeeMore);
+  
+  btnSeeMore.addEventListener('click', getPaginatedTrendingMovies);  
+
+}
+let page = 1;
+async function getPaginatedTrendingMovies(){
+  page++;
+  const {data} = await axiosAPI('trending/movie/day',{
+    params:{
+      page,
+    }
+  });
+  const movies = data.results;
+  createMovies(movies, genericSection,{clean:false});
+
+  const btnSeeMore = document.createElement('button');
+  btnSeeMore.innerText = 'Ver mas';
+  genericSection.appendChild(btnSeeMore);
+  
+  btnSeeMore.addEventListener('click', getPaginatedTrendingMovies);  
 }
 
 async function getMovieById(id){
