@@ -67,8 +67,6 @@ function createMovies(movies,
 
   });
 
-
-
 }
 
 function createCategories(categories, container){
@@ -142,32 +140,35 @@ async function getMoviesBySearch(query){
 async function getTrendingMovies(){
   const {data} = await axiosAPI('trending/movie/day');
   const movies = data.results;
-
-  createMovies(movies, genericSection,{clean:true});
-
-  const btnSeeMore = document.createElement('button');
-  btnSeeMore.innerText = 'Ver mas';
-  genericSection.appendChild(btnSeeMore);
+  console.log(data);
   
-  btnSeeMore.addEventListener('click', getPaginatedTrendingMovies);  
+  createMovies(movies, genericSection,{lazyLoad:true,clean:true});
 
 }
-let page = 1;
+
 async function getPaginatedTrendingMovies(){
   page++;
-  const {data} = await axiosAPI('trending/movie/day',{
-    params:{
-      page,
-    }
-  });
-  const movies = data.results;
-  createMovies(movies, genericSection,{clean:false});
 
-  const btnSeeMore = document.createElement('button');
-  btnSeeMore.innerText = 'Ver mas';
-  genericSection.appendChild(btnSeeMore);
-  
-  btnSeeMore.addEventListener('click', getPaginatedTrendingMovies);  
+  let {
+    scrollTop,
+    scrollHeight,
+    clientHeight,
+  } = document.documentElement;
+
+  const scrollIsBottom = (scrollTop + clientHeight) >= scrollHeight - 20;
+
+  if(scrollIsBottom){
+    
+    const {data} = await axiosAPI('trending/movie/day',{
+      params:{
+        page,
+      }
+    });
+    const movies = data.results;
+    createMovies(movies, genericSection,{clean:false});
+    
+  }
+
 }
 
 async function getMovieById(id){
