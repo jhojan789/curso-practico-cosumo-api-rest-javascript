@@ -112,6 +112,7 @@ async function getCategoryMoviesPreview(){
 }
 
 async function getMoviesByCategory(id){
+
   const {data} = await axiosAPI('discover/movie',{
     params:{
       with_genres: id,
@@ -119,9 +120,40 @@ async function getMoviesByCategory(id){
   });
   
   const movies = data.results;
+  maxPage = data.total_pages;
 
   createMovies(movies, genericSection,{lazyLoad:true});
 
+}
+
+function getPaginatedMoviesByCategory(id){
+  return async function(){
+    
+    let {
+      scrollTop,
+      scrollHeight,
+      clientHeight,
+    } = document.documentElement;
+    
+    const scrollIsBottom = (scrollTop + clientHeight) >= scrollHeight - 50;
+    
+    const pageIsNotMax =  page < maxPage ;
+    
+    if(scrollIsBottom && pageIsNotMax){
+      page++;
+      
+      const {data} = await axiosAPI('discover/movie',{
+        params:{
+          page,
+          with_genres: id,
+        }
+      });
+  
+      const movies = data.results;
+      createMovies(movies, genericSection,{lazyLoad:true,clean:false});
+    }
+  
+  }
 }
 
 async function getMoviesBySearch(query){
@@ -132,8 +164,42 @@ async function getMoviesBySearch(query){
   });
   
   const movies = data.results;
+  maxPage = data.total_pages;
+  
+  createMovies(movies, genericSection,{lazyLoad:true});
 
-  createMovies(movies, genericSection);
+}
+
+function getPaginatedMoviesBySearch(query){
+
+  return async function(){
+    
+    let {
+      scrollTop,
+      scrollHeight,
+      clientHeight,
+    } = document.documentElement;
+    
+    const scrollIsBottom = (scrollTop + clientHeight) >= scrollHeight - 50;
+    
+    const pageIsNotMax =  page < maxPage ;
+    
+    if(scrollIsBottom && pageIsNotMax){
+      page++;
+      
+      const {data} = await axiosAPI('search/movie',{
+        params:{
+          page,
+          query,
+        }
+      });
+  
+      const movies = data.results;
+      createMovies(movies, genericSection,{lazyLoad:true,clean:false});
+    }
+  }
+
+
 
 }
 
@@ -143,26 +209,24 @@ async function getTrendingMovies(){
   
   maxPage = data.total_pages;
 
-
-  
-  createMovies(movies, genericSection,{lazyLoad:true,clean:true});
+  createMovies(movies, genericSection,{lazyLoad:true});
 
 }
 
 async function getPaginatedTrendingMovies(){
-  page++;
-
+  
   let {
     scrollTop,
     scrollHeight,
     clientHeight,
   } = document.documentElement;
-
+  
   const scrollIsBottom = (scrollTop + clientHeight) >= scrollHeight - 50;
-
+  
   const pageIsNotMax =  page < maxPage ;
-
+  
   if(scrollIsBottom && pageIsNotMax){
+    page++;
     
     const {data} = await axiosAPI('trending/movie/day',{
       params:{
@@ -170,7 +234,7 @@ async function getPaginatedTrendingMovies(){
       }
     });
     const movies = data.results;
-    createMovies(movies, genericSection,{clean:false});
+    createMovies(movies, genericSection,{lazyLoad:true,clean:false});
   }
 
 }
@@ -203,3 +267,7 @@ async function getRelatedMoviesById(id){
 
 
 }
+
+
+
+
