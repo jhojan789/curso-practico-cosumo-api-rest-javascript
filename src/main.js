@@ -57,13 +57,24 @@ function createMovies(movies,
       img.setAttribute('src', 'https://http.cat/404');
     });
 
+    const favoriteBtn = document.createElement('button');
+    favoriteBtn.classList.add('movie-button');
+    favoriteBtn.addEventListener('click',()=>{
+      favoriteBtn.classList.toggle('movie-button--linked');
+      //////////////////////
+    }); 
+
+
     if(lazyLoad) {
       lazyLoader.observe(img);
 
     }
+
     
     div.appendChild(img);
+    div.append(favoriteBtn);
     container.appendChild(div);
+
 
   });
 
