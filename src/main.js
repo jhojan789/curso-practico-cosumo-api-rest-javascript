@@ -1,3 +1,5 @@
+//Data
+
 const axiosAPI = axios.create({
   baseURL : 'https://api.themoviedb.org/3/',
   headers :{
@@ -8,6 +10,34 @@ const axiosAPI = axios.create({
   },
 
 });
+
+function likedMovieList(){
+  const item = JSON.parse(localStorage.getItem('liked_movies'));
+  let movies;
+
+  if(item){
+    movies = item;
+  }else{
+    movies = {};
+  }
+
+  return movies;
+}
+
+function likeMovie(movie){
+
+  const likedMovies = likedMovieList();
+  
+
+  if(likedMovies[movie.id]){
+    likedMovies[movie.id] = undefined;
+  }else{
+    likedMovies[movie.id] = movie;
+  }
+  
+  localStorage.setItem('liked_movies',JSON.stringify(likedMovies));
+
+}
 
 /* Utils */
 
@@ -59,9 +89,10 @@ function createMovies(movies,
 
     const favoriteBtn = document.createElement('button');
     favoriteBtn.classList.add('movie-button');
+
     favoriteBtn.addEventListener('click',()=>{
       favoriteBtn.classList.toggle('movie-button--linked');
-      //////////////////////
+      likeMovie(movie);
     }); 
 
 
