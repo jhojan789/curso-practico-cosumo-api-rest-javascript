@@ -67,6 +67,7 @@ function homePage(){
   
   getCategoryMoviesPreview();
   getTrendingMoviesPreview();
+  getLinkedMovies();
   console.log('Home');
   
 }
@@ -83,7 +84,9 @@ function searchPage(){
   searchForm.classList.remove('inactive');
   
   trendingPreviewSection.classList.add('inactive');
-  
+
+  likedPreviewSection.classList.add('inactive');
+
   categoriesPreviewSection.classList.add('inactive');
   
   genericSection.classList.remove('inactive');
@@ -112,6 +115,8 @@ function movieDetailsPage(){
   
   trendingPreviewSection.classList.add('inactive');
   
+  likedPreviewSection.classList.add('inactive');
+  
   categoriesPreviewSection.classList.add('inactive');
   
   genericSection.classList.add('inactive');
@@ -139,6 +144,9 @@ function categoriesPage(){
   searchForm.classList.add('inactive');
   
   trendingPreviewSection.classList.add('inactive');
+
+  likedPreviewSection.classList.add('inactive');
+
   
   categoriesPreviewSection.classList.add('inactive');
   
@@ -171,6 +179,9 @@ function trendsPage(){
   searchForm.classList.add('inactive');
   
   trendingPreviewSection.classList.add('inactive');
+
+  likedPreviewSection.classList.add('inactive');
+
   
   categoriesPreviewSection.classList.add('inactive');
   

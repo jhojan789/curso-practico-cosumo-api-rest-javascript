@@ -141,11 +141,11 @@ button {
   content: '🤍';
   
 }
-.movie-button--linked{
+.movie-button--liked{
   background-color: var(--purple-light-2);
   box-shadow: black 0 0px 3px 1px;
 }
-.movie-button--linked::before{
+.movie-button--liked::before{
   content: '💜';
 }
 
