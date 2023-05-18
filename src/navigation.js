@@ -6,6 +6,12 @@ window.addEventListener('DOMContentLoaded', navigator,false);
 window.addEventListener('hashchange', navigator,false);
 window.addEventListener('scroll',infiniteScroll, {passive: false});
 
+//TODO
+//Implement      
+//  window.addEventListener('storage',()=>{
+//         location.reload();
+//       });
+
 searchFormBtn.addEventListener('click', ()=>{
   location.hash = '#search='  + searchFormInput.value;
 });
@@ -67,7 +73,8 @@ function homePage(){
   
   getCategoryMoviesPreview();
   getTrendingMoviesPreview();
-  getLinkedMovies();
+  getLikedMovies();
+
   console.log('Home');
   
 }

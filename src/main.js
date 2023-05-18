@@ -98,7 +98,11 @@ function createMovies(movies,
     favoriteBtn.addEventListener('click',()=>{
       favoriteBtn.classList.toggle('movie-button--liked');
       likeMovie(movie);
+      location.reload(); //
+
+
     }); 
+
 
 
     if(lazyLoad) {
@@ -315,7 +319,7 @@ async function getRelatedMoviesById(id){
   
 }
 
-function getLinkedMovies(){
+function getLikedMovies(){
   
   const favoriteMovies = Object.values(likedMovieList());
 
